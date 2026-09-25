@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="RigPAPR: Rig-Based Animation of Static Neural Point Clouds from a Fixed-Viewpoint Video.">
+  <meta name="keywords" content="RigPAPR, PAPR, point cloud, rigging, linear blend skinning, animation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RigPAPR: Rig-Based Animation of Static Neural Point Clouds from a Fixed-Viewpoint Video</title>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                   "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+  </script>
+  <script type="module">
+    import { mountRigViewer } from './static/rig/viewer.js';
+    mountRigViewer(document.getElementById('rig-trex'), './static/rig/trex');
+  </script>
+
+  <style>
+    .result-video { display: block; margin: 0.75rem auto 0; max-width: 100%; max-height: 80vh; }
+    .np-robot { display: block; width: 100%; background: #fff; }
+    .robot-np-title { margin-top: 2.5rem; }
+    .switch-baseline { margin-bottom: 0 !important; }
+    .rig-canvas { width: 100%; height: 520px; border: 1px solid #eee; border-radius: 6px; overflow: hidden; }
+    .rig-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; margin-top: 0.75rem; }
+    .rig-controls .buttons { margin-bottom: 0; }
+    .rig-controls .buttons .button { margin-bottom: 0; }
+    .rig-frame { width: 220px; }
+    .rig-frame-label { min-width: 5.5em; }
+    .switch-subject.tabs.is-toggle li.is-active a { background-color: #363636; border-color: #363636; color: #fff; }
+  </style>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">RigPAPR: Rig-Based Animation of Static Neural Point Clouds from a Fixed-Viewpoint Video</h1>
+          <h2 class="title is-size-4 publication-title">NeurIPS 2026</h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://niopeng.github.io" target="_blank">Shichong Peng</a>,</span>
+            <span class="author-block">
+              <a href="https://zvict.github.io/" target="_blank">Yanshu Zhang</a>,</span>
+            <span class="author-block">
+              <a href="https://www.sfu.ca/~keli/" target="_blank">Ke Li</a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">APEX Lab, Simon Fraser University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- arXiv Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2606.06685"
+                  class="external-link button is-normal is-rounded is-dark"
+                  target="_blank">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=up3BwRHYWG8"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/niopeng/RigPAPR"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/up3BwRHYWG8"
+            title="RigPAPR paper video" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Static neural point reconstructions capture a subject at high fidelity from posed images. Given such a
+            reconstruction, we aim to animate it to follow a monocular fixed-viewpoint driving video of the subject,
+            whether captured or produced by image-to-video (I2V) generation, and to recover a rigged, re-posable 3D asset.
+            Existing methods deform Gaussian splats through direct linear blend skinning (LBS) or mesh proxies, both of
+            which are prone to joint-boundary artifacts under articulation, even with per-primitive corrections.
+            We trace the artifact to the representation: each splat carries an individual shape calibrated in the
+            canonical pose to tile with its neighbours. Under LBS each splat can be moved, rotated, or rescaled but never
+            bent, so the canonical tiling comes apart at joint boundaries.
+            Proximity attention point rendering (PAPR) instead carries no per-primitive shape; each pixel is recomposed
+            at render time from the deformed primitives' positions, so the surface re-forms naturally with the articulation.
+            We present RigPAPR, which auto-rigs a static PAPR cloud and drives it under direct LBS from a single
+            fixed-viewpoint video, without a category template or a pose-dependent correction network.
+            RigPAPR is competitive with the strongest baseline at the supervised view and outperforms splatting-based and
+            mesh-based baselines at novel views, by 3&nbsp;dB PSNR on synthetic subjects and about 2&nbsp;dB on real-world
+            subjects, with cleaner joint-boundary renderings.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Result sections: the content list in CAMERA_READY.md §3. Section text follows the paper's prose rules.
+     Clips: built by fast-papr-ys/motion_transfer_local/video_maker/web/make_web_clips.py. -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Synthetic Subjects</h2>
+      <!-- TODO: section text (prose rules). -->
+      <div class="switcher" data-pattern="syn_{subject}_{baseline}">
+        <div class="tabs is-centered is-toggle is-small switch-subject"><ul>
+          <li data-value="trex" class="is-active"><a>T-Rex</a></li>
+          <li data-value="spider"><a>Spider</a></li>
+          <li data-value="fox"><a>Fox</a></li>
+          <li data-value="wolf"><a>Wolf</a></li>
+          <li data-value="simpsons"><a>Simpsons</a></li>
+        </ul></div>
+        <div class="buttons has-addons is-centered switch-baseline">
+          <button class="button is-small is-dark is-selected" data-value="manigs">vs. Mani-GS</button>
+          <button class="button is-small" data-value="riggs">vs. RigGS</button>
+          <button class="button is-small" data-value="puppeteer">vs. Puppeteer</button>
+        </div>
+        <video class="result-video" autoplay controls muted loop playsinline preload="auto" src="./static/videos/syn_trex_manigs.mp4"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Interactive Rig: T-Rex</h2>
+    <!-- TODO: section text (prose rules). The motion is the paper's Phase 2 fit; the weight toggle changes
+         only the colouring. -->
+    <div id="rig-trex" class="rig-viewer">
+      <div class="rig-canvas"></div>
+      <div class="rig-controls">
+        <button class="button is-small rig-play">Pause</button>
+        <input class="rig-frame" type="range" min="0" value="0" step="1">
+        <span class="rig-frame-label is-size-7"></span>
+        <div class="buttons has-addons rig-weights">
+          <button class="button is-small is-dark is-selected" data-value="refined">Refined weights</button>
+          <button class="button is-small" data-value="initial">Initial weights</button>
+        </div>
+        <label class="checkbox is-size-7"><input class="rig-skeleton" type="checkbox" checked> Skeleton</label>
+      </div>
+      <p class="rig-joint is-size-7 has-text-centered"></p>
+      <p class="is-size-7 has-text-centered has-text-grey">Drag to orbit, scroll to zoom, click a joint to see its skinning weights.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">ZJU-MoCap</h2>
+      <!-- TODO: section text (prose rules). -->
+      <div class="switcher" data-pattern="zju_{subject}_{baseline}">
+        <div class="tabs is-centered is-toggle is-small switch-subject"><ul>
+          <li data-value="zju313" class="is-active"><a>Subject 313</a></li>
+          <li data-value="zju390"><a>Subject 390</a></li>
+        </ul></div>
+        <div class="buttons has-addons is-centered switch-baseline">
+          <button class="button is-small is-dark is-selected" data-value="manigs">vs. Mani-GS</button>
+          <button class="button is-small" data-value="riggs">vs. RigGS</button>
+        </div>
+        <video class="result-video" autoplay controls muted loop playsinline preload="auto" src="./static/videos/zju_zju313_manigs.mp4"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Captured Scenes</h2>
+    <!-- TODO: section text (prose rules). -->
+    <div class="switcher" data-pattern="cap_{subject}">
+      <div class="tabs is-centered is-toggle is-small switch-subject"><ul>
+        <li data-value="robot" class="is-active"><a>Robot</a></li>
+        <li data-value="statue"><a>Statue</a></li>
+      </ul></div>
+      <video class="result-video" autoplay controls muted loop playsinline preload="auto" src="./static/videos/cap_robot.mp4"></video>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Novel-Pose Driving</h2>
+      <!-- TODO: section text (prose rules). Poses outside the fitted driving clip, as in the supp video's
+           novel-pose section: ZJU-MoCap 313 against the baselines, then two robot sequences (ours only). -->
+      <h3 class="title is-5">ZJU-MoCap Subject 313</h3>
+      <div class="switcher" data-pattern="np_zju313_{baseline}">
+        <div class="buttons has-addons is-centered switch-baseline">
+          <button class="button is-small is-dark is-selected" data-value="manigs">vs. Mani-GS</button>
+          <button class="button is-small" data-value="riggs">vs. RigGS</button>
+        </div>
+        <video class="result-video" autoplay controls muted loop playsinline preload="auto" src="./static/videos/np_zju313_manigs.mp4"></video>
+      </div>
+      <h3 class="title is-5 robot-np-title">Robot</h3>
+      <div class="columns is-centered is-mobile">
+        <div class="column is-5"><video class="np-robot" autoplay controls muted loop playsinline src="./static/videos/np_robot_heart.mp4"></video></div>
+        <div class="column is-5"><video class="np-robot" autoplay controls muted loop playsinline src="./static/videos/np_robot_wave.mp4"></video></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{peng2026rigpapr,
+  title     = {RigPAPR: Rig-Based Animation of Static Neural Point Clouds from a Fixed-Viewpoint Video},
+  author    = {Peng, Shichong and Zhang, Yanshu and Li, Ke},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and is
+            licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+            Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="text/javascript">
+
+  // Result switchers: tabs pick the subject, buttons pick the baseline; the clip file is
+  // data-pattern with {subject} / {baseline} filled in. Each clip is pre-composited, so panels stay in sync.
+  $(document).ready(function () {
+    $('.switcher').each(function () {
+      var box = $(this), video = box.find('video')[0];
+      function current(sel) { return box.find(sel).data('value') || ''; }
+      function update() {
+        var name = box.data('pattern')
+          .replace('{subject}', current('.switch-subject li.is-active'))
+          .replace('{baseline}', current('.switch-baseline .is-selected'));
+        video.src = './static/videos/' + name + '.mp4';
+        video.play();
+      }
+      box.find('.switch-subject li').on('click', function () {
+        $(this).addClass('is-active').siblings().removeClass('is-active');
+        update();
+      });
+      box.find('.switch-baseline button').on('click', function () {
+        $(this).addClass('is-dark is-selected').siblings().removeClass('is-dark is-selected');
+        update();
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    // Add smooth scrolling to all links
+    $("a").on('click', function (event) {
+
+      // Make sure this.hash has a value before overriding default behavior
+      if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+
+        // Store hash
+        var hash = this.hash;
+
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+          scrollTop: $(hash).offset().top
+        }, 600, function () {
+
+          // Add hash (#) to URL when done scrolling (default click behavior)
+          window.location.hash = hash;
+        });
+      } // End if
+    });
+  });
+
+</script>
+
+
+</body>
+</html>
