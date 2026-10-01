@@ -1,0 +1,9 @@
+name: rigpapr
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+      - -r requirements.txt
+# Afterwards build tiny-cuda-nn and pytorch3d as described at the top of requirements.txt.
