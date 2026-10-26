@@ -3,7 +3,7 @@
 **RigPAPR: Rig-Based Animation of Static Neural Point Clouds from a Fixed-Viewpoint Video**
 Shichong Peng, Yanshu Zhang, Ke Li. NeurIPS 2026.
 
-[Project page](https://niopeng.github.io/RigPAPR/) · [arXiv](https://arxiv.org/abs/2606.06685) · [Video](https://www.youtube.com/watch?v=up3BwRHYWG8)
+[Project page](https://niopeng.github.io/RigPAPR/) · [arXiv](https://arxiv.org/abs/2606.06685) · [Video](https://www.youtube.com/watch?v=R-ivP4SWkkM)
 
 Given a static [PAPR](https://github.com/zvict/papr) reconstruction of a subject and a single fixed-viewpoint video of it
 in motion, captured or produced by an image-to-video (I2V) model, RigPAPR recovers a rigged, re-posable 3D asset that
